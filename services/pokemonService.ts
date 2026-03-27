@@ -1,12 +1,6 @@
-
-
 export const formatText = (text: string): string => {
-  return text
-    .replace(/-/g, " ")
-    .replace(/\b\w/g, (char) => char.toUpperCase());
+  return text.replace(/-/g, " ").replace(/\b\w/g, (char) => char.toUpperCase());
 };
-
-
 
 export const getFullPokemon = async (value: string | number) => {
   const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${value}`);
@@ -39,32 +33,27 @@ export const getFullPokemon = async (value: string | number) => {
   // fetch evo images
   const evolutions = await Promise.all(
     evoChain.map(async (name: string) => {
-      const res = await fetch(
-        `https://pokeapi.co/api/v2/pokemon/${name}`
-      );
+      const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
       const evoPokemon = await res.json();
 
       return {
         name,
         image: evoPokemon.sprites.front_default,
       };
-    })
+    }),
   );
 
   return {
     id: data.id,
     name: formatText(data.name),
-  image: data.sprites.other["official-artwork"].front_default,
-  shiny: data.sprites.other["official-artwork"].front_shiny,
+    image: data.sprites.other["official-artwork"].front_default,
+    shiny: data.sprites.other["official-artwork"].front_shiny,
     type: data.types[0].type.name,
     location,
-    moves: data.moves.slice(0, 12).map((m: any) =>
-      formatText(m.move.name)
-    ),
-    abilities: data.abilities.slice(0, 20).map((a: any) =>
-      formatText(a.ability.name)
-    ),
+    moves: data.moves.slice(0, 12).map((m: any) => formatText(m.move.name)),
+    abilities: data.abilities
+      .slice(0, 20)
+      .map((a: any) => formatText(a.ability.name)),
     evolutions,
   };
 };
-
