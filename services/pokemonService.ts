@@ -6,6 +6,8 @@ export const formatText = (text: string): string => {
     .replace(/\b\w/g, (char) => char.toUpperCase());
 };
 
+
+
 export const getFullPokemon = async (value: string | number) => {
   const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${value}`);
   const data = await res.json();
@@ -53,9 +55,9 @@ export const getFullPokemon = async (value: string | number) => {
     id: data.id,
     name: formatText(data.name),
     image: data.sprites.front_default,
-    type: formatText(data.types[0].type.name),
+    type: data.types[0].type.name,
     location,
-    moves: data.moves.slice(0, 20).map((m: any) =>
+    moves: data.moves.slice(0, 12).map((m: any) =>
       formatText(m.move.name)
     ),
     abilities: data.abilities.slice(0, 20).map((a: any) =>
@@ -64,3 +66,4 @@ export const getFullPokemon = async (value: string | number) => {
     evolutions,
   };
 };
+
