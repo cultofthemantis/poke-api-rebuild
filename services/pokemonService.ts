@@ -54,7 +54,8 @@ export const getFullPokemon = async (value: string | number) => {
   return {
     id: data.id,
     name: formatText(data.name),
-    image: data.sprites.front_default,
+  image: data.sprites.other["official-artwork"].front_default,
+  shiny: data.sprites.other["official-artwork"].front_shiny,
     type: data.types[0].type.name,
     location,
     moves: data.moves.slice(0, 12).map((m: any) =>
